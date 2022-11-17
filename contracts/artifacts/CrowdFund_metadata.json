@@ -130,19 +130,6 @@
 				"inputs": [
 					{
 						"internalType": "uint256",
-						"name": "_donorId",
-						"type": "uint256"
-					}
-				],
-				"name": "createDonor",
-				"outputs": [],
-				"stateMutability": "nonpayable",
-				"type": "function"
-			},
-			{
-				"inputs": [
-					{
-						"internalType": "uint256",
 						"name": "charityId",
 						"type": "uint256"
 					},
@@ -176,19 +163,23 @@
 				"inputs": [
 					{
 						"internalType": "uint256",
-						"name": "",
+						"name": "charityId",
 						"type": "uint256"
-					}
-				],
-				"name": "donors",
-				"outputs": [
+					},
+					{
+						"internalType": "uint256",
+						"name": "projectId",
+						"type": "uint256"
+					},
 					{
 						"internalType": "uint256",
 						"name": "donorId",
 						"type": "uint256"
 					}
 				],
-				"stateMutability": "view",
+				"name": "donate",
+				"outputs": [],
+				"stateMutability": "payable",
 				"type": "function"
 			},
 			{
@@ -226,13 +217,56 @@
 				"type": "function"
 			},
 			{
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "charityId",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "projectId",
+						"type": "uint256"
+					}
+				],
+				"name": "getProjectStatus",
+				"outputs": [
+					{
+						"internalType": "string",
+						"name": "",
+						"type": "string"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
 				"inputs": [],
 				"name": "projectStatus",
 				"outputs": [
 					{
-						"internalType": "enum CrowdFund.PROJECTSTATUS",
+						"internalType": "enum CrowdFund.ProjectStatus",
 						"name": "",
 						"type": "uint8"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "enum CrowdFund.ProjectStatus",
+						"name": "",
+						"type": "uint8"
+					}
+				],
+				"name": "projectStatuses",
+				"outputs": [
+					{
+						"internalType": "string",
+						"name": "",
+						"type": "string"
 					}
 				],
 				"stateMutability": "view",
@@ -279,7 +313,7 @@
 						"type": "string"
 					},
 					{
-						"internalType": "uint8",
+						"internalType": "enum CrowdFund.ProjectStatus",
 						"name": "projectStatus",
 						"type": "uint8"
 					}
@@ -334,11 +368,11 @@
 	},
 	"sources": {
 		"contracts/CrowdFund.sol": {
-			"keccak256": "0xd7b6fbc8836f4a7ea92bbc55d176cc08fae96d7847313cbe43950b401503b5c5",
+			"keccak256": "0x5f4867787b58abe6a8bb0bcfb4c8d7e0145d072ed38160266f1a83ff6e30889f",
 			"license": "GPL-3.0",
 			"urls": [
-				"bzz-raw://0af085e023936ae5fa314299409f71e90c6148ce1e0a100986c349ae247e84a4",
-				"dweb:/ipfs/QmdEVqNr8DGEMxv3BJxkhBcfCEkeB2GfsVyqYTZoJqmVL9"
+				"bzz-raw://e49907e11dd5a0c0d49b4d52c8376152743da3c9c2a83de95d344af65c3f4773",
+				"dweb:/ipfs/QmepBPCLsp5jfCYFAbTcMj85gEY3YxzGuGMiAYaBuquPzE"
 			]
 		}
 	},
