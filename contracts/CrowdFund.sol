@@ -4,7 +4,7 @@ pragma solidity >=0.7.0 <0.9.0;
 
 contract CrowdFund {
 
-    enum ProjectStatus {WFA, RJC, APR, PGA, XR, XRA, XRR}
+    enum ProjectStatus {WFA, RJC, APR, PGA, XRQ, XRR, XRA, XRJ, RFD, CLD}
 
     struct Project {
         uint projectId; 
@@ -12,7 +12,7 @@ contract CrowdFund {
         uint goal;  
         uint raisedAmount; 
         address owner;  
-        //address charity; 
+        bool acceptDonation; 
         string documentLink;
         ProjectStatus projectStatus; 
     }
@@ -46,47 +46,57 @@ contract CrowdFund {
 
     mapping(uint => bool) approvedCharities; // Charities approved by the board
 
+    // Reciever/project will emit this event that will be received by the charity 
+    event ReceiverMessageToCharity(uint charityId, uint projectId, ProjectStatus projectStatus);
+
+    // Charity will emit this event that will be received by the board
+    event CharityMessageToBoard(uint charityId, uint projectId, ProjectStatus projectStatus);
+
+    // Board will emit this event that will be received by the charity
+    event CharityMessageToReceiver(uint charityId, uint projectId, ProjectStatus projectStatus);
+
+    // Board will emit this event that will be received by the charity
+    event BoardMessageToCharity(uint charityId, uint projectId, ProjectStatus projectStatus);
+
     string constant WFA = "Waiting for approval";
     string constant APR = "Approved";
     string constant RJC = "Rejected by charity";
     string constant PGA = "Project goal achieved";
-    string constant XR = "Exchange requested";
+    string constant XRQ = "Exchange requested";
+    string constant XRR = "Exchange request received";
     string constant XRA = "Exchange request approved";
-    string constant XRR = "Exchange request rejected";
+    string constant XRJ = "Exchange request rejected";
+    string constant RFD = "Funds refunded";
+    string constant CLD = "Project closed";
+    string constant NO_AUTH = "You are not authorized to update with this status";
+    string constant ONLY_ADMIN = "This operation can be performed only by Board admin";
+    string constant ONLY_CHARITY = "This operation can be performed only by Charity";
 
-    
 	ProjectStatus public projectStatus;
     mapping(ProjectStatus => string) public projectStatuses;
 
     modifier onlyBoardAdmin(){
-		require(msg.sender==boardAdmin,"This operation can be performed only by Board admin");
+		require(msg.sender==boardAdmin,ONLY_ADMIN);
 		_;
 	}
 	
+    modifier onlyCharity(){
+		require(msg.sender!=boardAdmin,ONLY_CHARITY);
+		_;
+	}
+
     constructor () {
         boardAdmin = msg.sender;
         projectStatuses[ProjectStatus.WFA] = WFA;
         projectStatuses[ProjectStatus.APR] = APR;
         projectStatuses[ProjectStatus.RJC] = RJC;
         projectStatuses[ProjectStatus.PGA] = PGA;
-        projectStatuses[ProjectStatus.XR] = XR;
-        projectStatuses[ProjectStatus.XRA] = XRA;
+        projectStatuses[ProjectStatus.XRQ] = XRQ;
         projectStatuses[ProjectStatus.XRR] = XRR;
-    }
-    
-    // Charity can change its project status only
-   function changeProjectStatus(uint projectId, uint charityId, uint8 enumValue) public {
-        Project[] storage projectList = charityProjects[charityId];
-        require(projectList.length > 0,"This project was not created under your charity");
-        for (uint i=0;i<projectList.length;i++) {
-            if (projectList[i].projectId == projectId) {
-                projectList[i].projectStatus = ProjectStatus(enumValue);
-                break;
-            }
-        }
-       
-        //Project storage project = projects[index];
-       // project.projectStatus = enumValue;
+        projectStatuses[ProjectStatus.XRA] = XRA;
+        projectStatuses[ProjectStatus.XRJ] = XRJ;
+        projectStatuses[ProjectStatus.RFD] = RFD;
+        projectStatuses[ProjectStatus.CLD] = CLD;
     }
 
     function createCharity(uint _charityId, string memory _licenseDocsLink, address charity) public onlyBoardAdmin {
@@ -129,7 +139,7 @@ contract CrowdFund {
     }
 
     // Charity will create the project once it got approved by the board
-    function createProject(uint charityId, uint _projectId, uint _goal, address owner, string memory _documentLink) public {
+    function createProject(uint charityId, uint _projectId, uint _goal, address owner, string memory _documentLink) onlyCharity public {
         require(approvedCharities[charityId],"Charity is not yet approved");
     
         Project memory newProject = Project({
@@ -138,7 +148,7 @@ contract CrowdFund {
            goal: _goal,
            raisedAmount: 0,
            owner: owner,
-           //charity: msg.sender,
+           acceptDonation: true,
            documentLink: _documentLink,
            projectStatus: ProjectStatus.APR
         });
@@ -174,23 +184,95 @@ contract CrowdFund {
 
     }
     */
+    function updateProjectStatus(uint projectId, uint charityId, uint8 enumValue) onlyBoardAdmin public {
+        
+        // The status may be XRR or XRA or XRJ
+
+        require(ProjectStatus(enumValue) != ProjectStatus.WFA,NO_AUTH);
+        require(ProjectStatus(enumValue) != ProjectStatus.APR,NO_AUTH);
+        require(ProjectStatus(enumValue) != ProjectStatus.PGA,NO_AUTH);
+        require(ProjectStatus(enumValue) != ProjectStatus.XRQ,NO_AUTH);
+
+       // require(ProjectStatus(enumValue) != ProjectStatus.XRR,NO_AUTH);
+        //require(ProjectStatus(enumValue) != ProjectStatus.XRA,NO_AUTH);
+        //require(ProjectStatus(enumValue) != ProjectStatus.XRJ,NO_AUTH);
+
+        Project[] storage projectList = charityProjects[charityId];
+        require(projectList.length > 0,"No project exist under this charity");
+        for (uint i=0;i<projectList.length;i++) {
+            if (projectList[i].projectId == projectId) {
+                projectList[i].projectStatus = ProjectStatus(enumValue);
+
+                // Notify the project status to the charity. 
+                // Charity will delegate the appropriate event to the project/receiver
+                emit BoardMessageToCharity(charityId, projectId, projectList[i].projectStatus);
+
+                break;
+            }
+        }
+    }
+   // Charity can change its project status only
+    function changeProjectStatus(uint projectId, uint charityId, uint8 enumValue) onlyCharity public {
+        
+        bool exist = false;
+
+        require(ProjectStatus(enumValue) != ProjectStatus.PGA,NO_AUTH);
+        require(ProjectStatus(enumValue) != ProjectStatus.XRR,NO_AUTH);
+        require(ProjectStatus(enumValue) != ProjectStatus.XRA,NO_AUTH);
+       // require(ProjectStatus(enumValue) != ProjectStatus.XRJ,NO_AUTH);
+
+        Project[] storage projectList = charityProjects[charityId];
+        require(projectList.length > 0,"Project doesn't exist");
+
+        for (uint i=0;i<projectList.length;i++) {
+            if (projectList[i].projectId == projectId) {
+                
+                exist = true;
+
+                projectList[i].acceptDonation = false;
+
+                if (ProjectStatus(enumValue) == ProjectStatus.XRJ ||
+                    ProjectStatus(enumValue) == ProjectStatus.XRA) {
+
+                    // Notify the project status to the receiver/project 
+                    emit CharityMessageToReceiver(charityId, projectId, ProjectStatus(enumValue));
+
+                    // If rejected by the board
+                    if (ProjectStatus(enumValue) == ProjectStatus.XRJ) {
+                        // Notify donors as fund refunded and automatically refund to his account
+                        // the function must be private
+                    } else if (ProjectStatus(enumValue) == ProjectStatus.XRA) {
+                        // Notify donors as project closed and automatically transfer all fund to the receiver/project
+                        // the function must be private
+                    }
+                } else {
+
+                    // Update the project status
+                    projectList[i].projectStatus = ProjectStatus(enumValue);
+
+                    if (ProjectStatus(enumValue) == ProjectStatus.XRQ) {
+                        // Notify the project status to the Board 
+                        emit CharityMessageToBoard(charityId, projectId, ProjectStatus.XRQ);
+                    }
+                }
+            }
+
+            if (exist)
+                break;
+        }
+    }
 
     function getProjectFundDetails(uint charityId, uint projectId) public view returns (
         uint, uint, uint) {
             Project[] storage projectList = charityProjects[charityId];
-            require(projectList.length > 0,"Charity not found");
+            require(projectList.length > 0,"Charity doesn't exist");
             for (uint i=0;i<projectList.length;i++) {
                 if (projectList[i].projectId == projectId) {
-                    if (projectList[i].goal == projectList[i].raisedAmount) {
-                        //return (projectList[i].goal,projectList[i].raisedAmount,0);
-                        revert("Project goal achieved");
-                    } else {
-                        return (
-                            projectList[i].goal,
-                            projectList[i].raisedAmount,
-                            projectList[i].goal - projectList[i].raisedAmount
-                        );
-                    }
+                    return (
+                        projectList[i].goal,
+                        projectList[i].raisedAmount,
+                        projectList[i].goal - projectList[i].raisedAmount
+                    );
                 }
             }
 
@@ -198,57 +280,90 @@ contract CrowdFund {
     }
 
     function donate(uint charityId, uint projectId, uint donorId) public payable {
-            bool status = false;
+            bool projectExist = false;
             Project[] storage projectList = charityProjects[charityId];
             require(projectList.length > 0,"Charity not found");
             for (uint i=0;i<projectList.length;i++) {
-                if (projectList[i].projectId == projectId && 
-                    projectList[i].projectStatus == ProjectStatus.APR) {
-                    if (projectList[i].goal == projectList[i].raisedAmount) {
-                        revert("Project goal achieved");
+                if (projectList[i].projectId == projectId) { 
+                    if (projectList[i].acceptDonation) {
+                        require(msg.value >= projectList[i].minimumAmount, "Should be greater than minimum amount");
+                        projectList[i].raisedAmount = projectList[i].raisedAmount + msg.value;
+
+                        // Get the donor with donorId
+                        Donor storage donor = donors[donorId];
+
+                        // If the donor and message sender are same, the amount should be added with  
+                        // existing amount under the specific project
+                        if (donor.owner == msg.sender) {
+                            donor.projectwiseContributions[projectId] += msg.value;
+                        } else { // It means no donor already exist under this donorId
+                            // Create a new donor
+                            Donor storage newDonor = donors[donorId];
+                            newDonor.donorId = donorId;
+                            newDonor.owner = msg.sender;
+                            newDonor.projectwiseContributions[projectId] = msg.value;
+                        }
+
+                        // If the project goal is reached
+                        if (projectList[i].raisedAmount == projectList[i].goal) {
+                            // Change the status
+                            projectList[i].projectStatus = ProjectStatus.PGA;
+
+                            // No more donations accepted
+                            projectList[i].acceptDonation = false;
+
+                            // Notify the project status to the receiver. 
+                            emit ReceiverMessageToCharity(charityId, projectId, ProjectStatus.PGA);
+                        }
                     } else {
-                            require(msg.value > projectList[i].minimumAmount);
-                            projectList[i].raisedAmount = projectList[i].raisedAmount + msg.value;
-
-                            // Get the existing donor
-                            Donor storage donor = donors[donorId];
-
-                            // If the donor and message sender are same, the amount should be added with  
-                            // existing amount under the specific project
-                            if (donor.owner == msg.sender) {
-                                donor.projectwiseContributions[projectId] += msg.value;
-                            } else { // It means no donor already exist under this donorId
-                                // Create a new donor
-                                Donor storage newDonor = donors[donorId];
-                                newDonor.donorId = donorId;
-                                newDonor.owner = msg.sender;
-                                newDonor.projectwiseContributions[projectId] = msg.value;
-                            }
-
-                            if (projectList[i].raisedAmount == projectList[i].goal) {
-                                projectList[i].projectStatus = ProjectStatus.PGA;
-                                status = true;
-                            }
+                        revert("No more donations accepted for this project.");
                     }
+
+                    projectExist = true;
+                    break;
                 }
             }
 
-            if (!status)
+            if (!projectExist)
                 revert("No such project exist under this charity");
     }
 
-/*
-    function getRefund() public {
-        require(block.number > deadline);
-        require(raisedAmount < goal);
-        require(contributions[msg.sender] > 0);
-        
-        
-        msg.sender.transfer(contributions[msg.sender]);
-        contributions[msg.sender] = 0;
-       
+    function getRefund(uint charityId, uint projectId, uint donorId) public {
+        Project[] storage projectList = charityProjects[charityId];
+            require(projectList.length > 0,"Charity not found");
+
+            // Get the donor with donorId
+            Donor storage donor = donors[donorId];
+
+            // If the donor and message sender are same and has given some contribution to this project
+            if (donor.owner == msg.sender && donor.projectwiseContributions[projectId] > 0) {
+                for (uint i=0;i<projectList.length;i++) {
+                    if (projectList[i].projectId == projectId) { 
+                        if (projectList[i].projectStatus > ProjectStatus.PGA) {
+                            revert("Can't refund as exchange request was already initiated with board");
+                        } else {
+                            projectList[i].raisedAmount = projectList[i].raisedAmount - donor.projectwiseContributions[projectId];
+                            
+                            // If accepting donation was stopped
+                            if (!projectList[i].acceptDonation) {
+
+                                // Make it acceptable again
+                                projectList[i].acceptDonation = true;
+                            }
+                        }
+                    } else {
+                        revert("No project exist under this projectId");
+                    }
+                }
+
+                payable (msg.sender).transfer(donor.projectwiseContributions[projectId]);
+                donor.projectwiseContributions[projectId] = 0;
+
+            } else {
+                revert("You haven't contributed for this project");
+            }
     }
-*/
+
     function getProjectStatus(uint charityId, uint projectId) external view returns (
         string memory) {
            Project[] storage projectList = charityProjects[charityId];
