@@ -82,6 +82,31 @@
 						"type": "uint8"
 					}
 				],
+				"name": "CharityMessageToDonor",
+				"type": "event"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": false,
+						"internalType": "uint256",
+						"name": "charityId",
+						"type": "uint256"
+					},
+					{
+						"indexed": false,
+						"internalType": "uint256",
+						"name": "projectId",
+						"type": "uint256"
+					},
+					{
+						"indexed": false,
+						"internalType": "enum CrowdFund.ProjectStatus",
+						"name": "projectStatus",
+						"type": "uint8"
+					}
+				],
 				"name": "CharityMessageToReceiver",
 				"type": "event"
 			},
@@ -351,11 +376,6 @@
 						"internalType": "uint256",
 						"name": "projectId",
 						"type": "uint256"
-					},
-					{
-						"internalType": "uint256",
-						"name": "donorId",
-						"type": "uint256"
 					}
 				],
 				"name": "getRefund",
@@ -453,6 +473,24 @@
 				"inputs": [
 					{
 						"internalType": "uint256",
+						"name": "charityId",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "projectId",
+						"type": "uint256"
+					}
+				],
+				"name": "refundToAllDonors",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint256",
 						"name": "index",
 						"type": "uint256"
 					},
@@ -519,11 +557,11 @@
 	},
 	"sources": {
 		"contracts/CrowdFund.sol": {
-			"keccak256": "0xab829eae1fa751c876869faca42049e0a9159643029058f53cdc3d8739a098b5",
+			"keccak256": "0x65fefc91553e9a570b7aed0238a14639680e451810d9cf4e2c5ca74f025c4b02",
 			"license": "GPL-3.0",
 			"urls": [
-				"bzz-raw://f7015fe3da00d78624833498bb3592450435e8fd9b3f27c4cb17f3e33f670a44",
-				"dweb:/ipfs/Qmbj5oxcJxCfne1CZRcgJ3Dp21GJ59Bu6CxP5XbjzpLLJi"
+				"bzz-raw://6d554d0c847ac7eeb1c75daf0e3561fc1d2e2cc69e50ed1505ce9bf423c29103",
+				"dweb:/ipfs/QmUF3a5fBGnz7x7yz1jMaQrxrv6NwagMDDSazp9wRqhihJ"
 			]
 		}
 	},
