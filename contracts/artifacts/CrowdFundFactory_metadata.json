@@ -1,0 +1,85 @@
+{
+	"compiler": {
+		"version": "0.8.7+commit.e28d00a7"
+	},
+	"language": "Solidity",
+	"output": {
+		"abi": [
+			{
+				"inputs": [],
+				"name": "createCrowdFund",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"name": "deployedCrowdFunds",
+				"outputs": [
+					{
+						"internalType": "contract CrowdFund",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "getDeployedCrowdFunds",
+				"outputs": [
+					{
+						"internalType": "contract CrowdFund[]",
+						"name": "",
+						"type": "address[]"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			}
+		],
+		"devdoc": {
+			"kind": "dev",
+			"methods": {},
+			"version": 1
+		},
+		"userdoc": {
+			"kind": "user",
+			"methods": {},
+			"version": 1
+		}
+	},
+	"settings": {
+		"compilationTarget": {
+			"contracts/CrowdFund.sol": "CrowdFundFactory"
+		},
+		"evmVersion": "london",
+		"libraries": {},
+		"metadata": {
+			"bytecodeHash": "ipfs"
+		},
+		"optimizer": {
+			"enabled": false,
+			"runs": 200
+		},
+		"remappings": []
+	},
+	"sources": {
+		"contracts/CrowdFund.sol": {
+			"keccak256": "0x12a68f78ca06dbc910715430e46569a260b33bbca0f1a126b955ab5fe8c74358",
+			"license": "GPL-3.0",
+			"urls": [
+				"bzz-raw://65504735497fa0fbf1dec716edc7b9f0a0c342cc1aa5dcb287a8eda1eae240a4",
+				"dweb:/ipfs/QmbBmHKJnn8duk9SqrP2Zvk1LnUavdXheCxMs4vCwWeRYB"
+			]
+		}
+	},
+	"version": 1
+}

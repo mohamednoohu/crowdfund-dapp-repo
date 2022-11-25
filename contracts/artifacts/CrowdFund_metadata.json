@@ -136,24 +136,6 @@
 				"type": "event"
 			},
 			{
-				"inputs": [
-					{
-						"internalType": "uint256",
-						"name": "index",
-						"type": "uint256"
-					},
-					{
-						"internalType": "uint256",
-						"name": "charityId",
-						"type": "uint256"
-					}
-				],
-				"name": "approveCharity",
-				"outputs": [],
-				"stateMutability": "nonpayable",
-				"type": "function"
-			},
-			{
 				"inputs": [],
 				"name": "boardAdmin",
 				"outputs": [
@@ -164,29 +146,6 @@
 					}
 				],
 				"stateMutability": "view",
-				"type": "function"
-			},
-			{
-				"inputs": [
-					{
-						"internalType": "uint256",
-						"name": "projectId",
-						"type": "uint256"
-					},
-					{
-						"internalType": "uint256",
-						"name": "charityId",
-						"type": "uint256"
-					},
-					{
-						"internalType": "uint8",
-						"name": "enumValue",
-						"type": "uint8"
-					}
-				],
-				"name": "changeProjectStatus",
-				"outputs": [],
-				"stateMutability": "nonpayable",
 				"type": "function"
 			},
 			{
@@ -265,6 +224,11 @@
 					},
 					{
 						"internalType": "uint256",
+						"name": "_minimumAmount",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
 						"name": "_goal",
 						"type": "uint256"
 					},
@@ -300,11 +264,45 @@
 						"internalType": "uint256",
 						"name": "donorId",
 						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "amount",
+						"type": "uint256"
 					}
 				],
 				"name": "donate",
 				"outputs": [],
 				"stateMutability": "payable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "charityId",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "projectId",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "donorId",
+						"type": "uint256"
+					}
+				],
+				"name": "getDonorBalance",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
 				"type": "function"
 			},
 			{
@@ -332,6 +330,64 @@
 						"name": "",
 						"type": "uint256"
 					},
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "charityId",
+						"type": "uint256"
+					}
+				],
+				"name": "getProjectListByCharity",
+				"outputs": [
+					{
+						"internalType": "uint256[]",
+						"name": "_projectIds",
+						"type": "uint256[]"
+					},
+					{
+						"internalType": "uint256[]",
+						"name": "_minimumAmounts",
+						"type": "uint256[]"
+					},
+					{
+						"internalType": "uint256[]",
+						"name": "_goals",
+						"type": "uint256[]"
+					},
+					{
+						"internalType": "uint256[]",
+						"name": "_raisedAmounts",
+						"type": "uint256[]"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "charityId",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "projectId",
+						"type": "uint256"
+					}
+				],
+				"name": "getProjectOwnerBalance",
+				"outputs": [
 					{
 						"internalType": "uint256",
 						"name": "",
@@ -477,22 +533,9 @@
 						"type": "uint256"
 					},
 					{
-						"internalType": "uint256",
-						"name": "projectId",
-						"type": "uint256"
-					}
-				],
-				"name": "refundToAllDonors",
-				"outputs": [],
-				"stateMutability": "nonpayable",
-				"type": "function"
-			},
-			{
-				"inputs": [
-					{
-						"internalType": "uint256",
-						"name": "index",
-						"type": "uint256"
+						"internalType": "bool",
+						"name": "status",
+						"type": "bool"
 					},
 					{
 						"internalType": "string",
@@ -500,7 +543,7 @@
 						"type": "string"
 					}
 				],
-				"name": "rejectCharity",
+				"name": "updateCharityStatus",
 				"outputs": [],
 				"stateMutability": "nonpayable",
 				"type": "function"
@@ -523,7 +566,30 @@
 						"type": "uint8"
 					}
 				],
-				"name": "updateProjectStatus",
+				"name": "updateProjectStatusByAdmin",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "projectId",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "charityId",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint8",
+						"name": "enumValue",
+						"type": "uint8"
+					}
+				],
+				"name": "updateProjectStatusByCharity",
 				"outputs": [],
 				"stateMutability": "nonpayable",
 				"type": "function"
@@ -557,11 +623,11 @@
 	},
 	"sources": {
 		"contracts/CrowdFund.sol": {
-			"keccak256": "0x65fefc91553e9a570b7aed0238a14639680e451810d9cf4e2c5ca74f025c4b02",
+			"keccak256": "0x1766ac375090a6348969689d3b784b4ab177a281740ba628e448f2a6f0cab52a",
 			"license": "GPL-3.0",
 			"urls": [
-				"bzz-raw://6d554d0c847ac7eeb1c75daf0e3561fc1d2e2cc69e50ed1505ce9bf423c29103",
-				"dweb:/ipfs/QmUF3a5fBGnz7x7yz1jMaQrxrv6NwagMDDSazp9wRqhihJ"
+				"bzz-raw://bb6d8044ee7f5cbbe5ca9cefa32697ad0a3f90fe41f3d5f1151c84a29ff42f6e",
+				"dweb:/ipfs/Qmf9JjojLd9zoL5pFrs5YEKXH9eFBVuMEoRe2noyhGZQUH"
 			]
 		}
 	},
