@@ -15,15 +15,15 @@
 				"inputs": [
 					{
 						"indexed": false,
-						"internalType": "uint256",
-						"name": "charityId",
-						"type": "uint256"
+						"internalType": "address",
+						"name": "charityAddress",
+						"type": "address"
 					},
 					{
 						"indexed": false,
-						"internalType": "uint256",
-						"name": "projectId",
-						"type": "uint256"
+						"internalType": "address",
+						"name": "projectAddress",
+						"type": "address"
 					},
 					{
 						"indexed": false,
@@ -40,15 +40,15 @@
 				"inputs": [
 					{
 						"indexed": false,
-						"internalType": "uint256",
-						"name": "charityId",
-						"type": "uint256"
+						"internalType": "address",
+						"name": "charityAddress",
+						"type": "address"
 					},
 					{
 						"indexed": false,
-						"internalType": "uint256",
-						"name": "projectId",
-						"type": "uint256"
+						"internalType": "address",
+						"name": "projectAddress",
+						"type": "address"
 					},
 					{
 						"indexed": false,
@@ -65,15 +65,15 @@
 				"inputs": [
 					{
 						"indexed": false,
-						"internalType": "uint256",
-						"name": "charityId",
-						"type": "uint256"
+						"internalType": "address",
+						"name": "charityAddress",
+						"type": "address"
 					},
 					{
 						"indexed": false,
-						"internalType": "uint256",
-						"name": "projectId",
-						"type": "uint256"
+						"internalType": "address",
+						"name": "projectAddress",
+						"type": "address"
 					},
 					{
 						"indexed": false,
@@ -90,15 +90,15 @@
 				"inputs": [
 					{
 						"indexed": false,
-						"internalType": "uint256",
-						"name": "charityId",
-						"type": "uint256"
+						"internalType": "address",
+						"name": "charityAddress",
+						"type": "address"
 					},
 					{
 						"indexed": false,
-						"internalType": "uint256",
-						"name": "projectId",
-						"type": "uint256"
+						"internalType": "address",
+						"name": "projectAddress",
+						"type": "address"
 					},
 					{
 						"indexed": false,
@@ -115,15 +115,15 @@
 				"inputs": [
 					{
 						"indexed": false,
-						"internalType": "uint256",
-						"name": "charityId",
-						"type": "uint256"
+						"internalType": "address",
+						"name": "charityAddress",
+						"type": "address"
 					},
 					{
 						"indexed": false,
-						"internalType": "uint256",
-						"name": "projectId",
-						"type": "uint256"
+						"internalType": "address",
+						"name": "projectAddress",
+						"type": "address"
 					},
 					{
 						"indexed": false,
@@ -151,57 +151,13 @@
 			{
 				"inputs": [
 					{
-						"internalType": "uint256",
-						"name": "",
-						"type": "uint256"
-					}
-				],
-				"name": "charities",
-				"outputs": [
-					{
-						"internalType": "uint256",
-						"name": "charityId",
-						"type": "uint256"
-					},
-					{
-						"internalType": "bool",
-						"name": "approved",
-						"type": "bool"
-					},
-					{
-						"internalType": "string",
-						"name": "reason",
-						"type": "string"
-					},
-					{
-						"internalType": "string",
-						"name": "licenseDocsLink",
-						"type": "string"
-					},
-					{
-						"internalType": "address",
-						"name": "owner",
-						"type": "address"
-					}
-				],
-				"stateMutability": "view",
-				"type": "function"
-			},
-			{
-				"inputs": [
-					{
-						"internalType": "uint256",
-						"name": "_charityId",
-						"type": "uint256"
-					},
-					{
 						"internalType": "string",
 						"name": "_licenseDocsLink",
 						"type": "string"
 					},
 					{
 						"internalType": "address",
-						"name": "charity",
+						"name": "owner",
 						"type": "address"
 					}
 				],
@@ -212,16 +168,6 @@
 			},
 			{
 				"inputs": [
-					{
-						"internalType": "uint256",
-						"name": "charityId",
-						"type": "uint256"
-					},
-					{
-						"internalType": "uint256",
-						"name": "_projectId",
-						"type": "uint256"
-					},
 					{
 						"internalType": "uint256",
 						"name": "_minimumAmount",
@@ -251,24 +197,14 @@
 			{
 				"inputs": [
 					{
-						"internalType": "uint256",
-						"name": "charityId",
-						"type": "uint256"
+						"internalType": "address",
+						"name": "charityAddress",
+						"type": "address"
 					},
 					{
-						"internalType": "uint256",
-						"name": "projectId",
-						"type": "uint256"
-					},
-					{
-						"internalType": "uint256",
-						"name": "donorId",
-						"type": "uint256"
-					},
-					{
-						"internalType": "uint256",
-						"name": "amount",
-						"type": "uint256"
+						"internalType": "address",
+						"name": "projectAddress",
+						"type": "address"
 					}
 				],
 				"name": "donate",
@@ -279,19 +215,19 @@
 			{
 				"inputs": [
 					{
-						"internalType": "uint256",
-						"name": "charityId",
-						"type": "uint256"
+						"internalType": "address",
+						"name": "charityAddress",
+						"type": "address"
 					},
 					{
-						"internalType": "uint256",
-						"name": "projectId",
-						"type": "uint256"
+						"internalType": "address",
+						"name": "projectAddress",
+						"type": "address"
 					},
 					{
-						"internalType": "uint256",
-						"name": "donorId",
-						"type": "uint256"
+						"internalType": "address",
+						"name": "donorAddress",
+						"type": "address"
 					}
 				],
 				"name": "getDonorBalance",
@@ -308,14 +244,14 @@
 			{
 				"inputs": [
 					{
-						"internalType": "uint256",
-						"name": "charityId",
-						"type": "uint256"
+						"internalType": "address",
+						"name": "charityAddress",
+						"type": "address"
 					},
 					{
-						"internalType": "uint256",
-						"name": "projectId",
-						"type": "uint256"
+						"internalType": "address",
+						"name": "projectAddress",
+						"type": "address"
 					}
 				],
 				"name": "getProjectFundDetails",
@@ -342,17 +278,17 @@
 			{
 				"inputs": [
 					{
-						"internalType": "uint256",
-						"name": "charityId",
-						"type": "uint256"
+						"internalType": "address",
+						"name": "charityAddress",
+						"type": "address"
 					}
 				],
 				"name": "getProjectListByCharity",
 				"outputs": [
 					{
-						"internalType": "uint256[]",
-						"name": "_projectIds",
-						"type": "uint256[]"
+						"internalType": "address[]",
+						"name": "_projectAddresses",
+						"type": "address[]"
 					},
 					{
 						"internalType": "uint256[]",
@@ -376,14 +312,14 @@
 			{
 				"inputs": [
 					{
-						"internalType": "uint256",
-						"name": "charityId",
-						"type": "uint256"
+						"internalType": "address",
+						"name": "charityAddress",
+						"type": "address"
 					},
 					{
-						"internalType": "uint256",
-						"name": "projectId",
-						"type": "uint256"
+						"internalType": "address",
+						"name": "projectAddress",
+						"type": "address"
 					}
 				],
 				"name": "getProjectOwnerBalance",
@@ -400,14 +336,14 @@
 			{
 				"inputs": [
 					{
-						"internalType": "uint256",
-						"name": "charityId",
-						"type": "uint256"
+						"internalType": "address",
+						"name": "charityAddress",
+						"type": "address"
 					},
 					{
-						"internalType": "uint256",
-						"name": "projectId",
-						"type": "uint256"
+						"internalType": "address",
+						"name": "projectAddress",
+						"type": "address"
 					}
 				],
 				"name": "getProjectStatus",
@@ -424,14 +360,14 @@
 			{
 				"inputs": [
 					{
-						"internalType": "uint256",
-						"name": "charityId",
-						"type": "uint256"
+						"internalType": "address",
+						"name": "charityAddress",
+						"type": "address"
 					},
 					{
-						"internalType": "uint256",
-						"name": "projectId",
-						"type": "uint256"
+						"internalType": "address",
+						"name": "projectAddress",
+						"type": "address"
 					}
 				],
 				"name": "getRefund",
@@ -474,63 +410,9 @@
 			{
 				"inputs": [
 					{
-						"internalType": "uint256",
-						"name": "",
-						"type": "uint256"
-					}
-				],
-				"name": "projects",
-				"outputs": [
-					{
-						"internalType": "uint256",
-						"name": "projectId",
-						"type": "uint256"
-					},
-					{
-						"internalType": "uint256",
-						"name": "minimumAmount",
-						"type": "uint256"
-					},
-					{
-						"internalType": "uint256",
-						"name": "goal",
-						"type": "uint256"
-					},
-					{
-						"internalType": "uint256",
-						"name": "raisedAmount",
-						"type": "uint256"
-					},
-					{
 						"internalType": "address",
-						"name": "owner",
+						"name": "charityAddress",
 						"type": "address"
-					},
-					{
-						"internalType": "bool",
-						"name": "acceptDonation",
-						"type": "bool"
-					},
-					{
-						"internalType": "string",
-						"name": "documentLink",
-						"type": "string"
-					},
-					{
-						"internalType": "enum CrowdFund.ProjectStatus",
-						"name": "projectStatus",
-						"type": "uint8"
-					}
-				],
-				"stateMutability": "view",
-				"type": "function"
-			},
-			{
-				"inputs": [
-					{
-						"internalType": "uint256",
-						"name": "charityId",
-						"type": "uint256"
 					},
 					{
 						"internalType": "bool",
@@ -551,14 +433,14 @@
 			{
 				"inputs": [
 					{
-						"internalType": "uint256",
-						"name": "projectId",
-						"type": "uint256"
+						"internalType": "address",
+						"name": "charityAddress",
+						"type": "address"
 					},
 					{
-						"internalType": "uint256",
-						"name": "charityId",
-						"type": "uint256"
+						"internalType": "address",
+						"name": "projectAddress",
+						"type": "address"
 					},
 					{
 						"internalType": "uint8",
@@ -574,14 +456,9 @@
 			{
 				"inputs": [
 					{
-						"internalType": "uint256",
-						"name": "projectId",
-						"type": "uint256"
-					},
-					{
-						"internalType": "uint256",
-						"name": "charityId",
-						"type": "uint256"
+						"internalType": "address",
+						"name": "projectAddress",
+						"type": "address"
 					},
 					{
 						"internalType": "uint8",
@@ -623,11 +500,11 @@
 	},
 	"sources": {
 		"contracts/CrowdFund.sol": {
-			"keccak256": "0x1766ac375090a6348969689d3b784b4ab177a281740ba628e448f2a6f0cab52a",
+			"keccak256": "0xff81b046d7298af678ffabd7177b7a3126aca9ac361ecf124c5891e44ae1ccb8",
 			"license": "GPL-3.0",
 			"urls": [
-				"bzz-raw://bb6d8044ee7f5cbbe5ca9cefa32697ad0a3f90fe41f3d5f1151c84a29ff42f6e",
-				"dweb:/ipfs/Qmf9JjojLd9zoL5pFrs5YEKXH9eFBVuMEoRe2noyhGZQUH"
+				"bzz-raw://0779209b8e8a97a6a8263dca3ced29f25d6fc880d1148357596fb8b9237f191d",
+				"dweb:/ipfs/QmNkCaoUABY5UGYYqNrtZk5P32PQeeiWNWZZzift69LjJB"
 			]
 		}
 	},
