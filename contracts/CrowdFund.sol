@@ -497,6 +497,16 @@ contract CrowdFund {
             revert("No project exist under this projectId");
     }
 
+    // Donor buys ETHER
+    function buyEther(address donorAddress) public onlyBoardAdmin payable{
+        payable (donorAddress).transfer(msg.value);       
+    }
+
+    // Donor sells ETHER 
+    function sellEther() public payable{
+        payable (boardAdmin).transfer(msg.value);       
+    }
+
     // Return project status
     function getProjectStatus(address charityAddress, address projectAddress) external view returns (
         string memory) {

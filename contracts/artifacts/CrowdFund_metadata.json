@@ -151,6 +151,19 @@
 			{
 				"inputs": [
 					{
+						"internalType": "address",
+						"name": "donorAddress",
+						"type": "address"
+					}
+				],
+				"name": "buyEther",
+				"outputs": [],
+				"stateMutability": "payable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
 						"internalType": "string",
 						"name": "_licenseDocsLink",
 						"type": "string"
@@ -408,6 +421,13 @@
 				"type": "function"
 			},
 			{
+				"inputs": [],
+				"name": "sellEther",
+				"outputs": [],
+				"stateMutability": "payable",
+				"type": "function"
+			},
+			{
 				"inputs": [
 					{
 						"internalType": "address",
@@ -500,11 +520,11 @@
 	},
 	"sources": {
 		"contracts/CrowdFund.sol": {
-			"keccak256": "0xff81b046d7298af678ffabd7177b7a3126aca9ac361ecf124c5891e44ae1ccb8",
+			"keccak256": "0x0baad755da1bb69d068199807ed45e195cc095aeb19fc5d4c7ed488a999f5487",
 			"license": "GPL-3.0",
 			"urls": [
-				"bzz-raw://0779209b8e8a97a6a8263dca3ced29f25d6fc880d1148357596fb8b9237f191d",
-				"dweb:/ipfs/QmNkCaoUABY5UGYYqNrtZk5P32PQeeiWNWZZzift69LjJB"
+				"bzz-raw://2d10da4301d5b8a3f10652713f544ccd3aac758e9feb6cbf051bdb23a38a3ed5",
+				"dweb:/ipfs/QmfLXu8Dv8kSmb7pbHuQKFRCYyfoSkjqRtarSDGJ44789S"
 			]
 		}
 	},
